@@ -1,0 +1,12 @@
+includes:
+    - ./tools/phpstan/vendor/larastan/larastan/extension.neon
+parameters:
+    paths:
+        - app
+    level: 9
+    ignoreErrors:
+    excludePaths:
+    scanFiles:
+        - _ide_helper_models.php
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false

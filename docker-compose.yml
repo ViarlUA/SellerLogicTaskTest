@@ -1,0 +1,98 @@
+version: '3'
+services:
+  #PHP Service
+  app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - logs:/var/log/nginx
+    container_name: ${APP_NAME}_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    networks:
+      - app-network
+    depends_on:
+      - redis
+      - db
+      - clickhouse
+
+  #Nginx Service
+  webserver:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: ${APP_NAME}_webserver
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - logs:/var/log/nginx
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  #Postgres Service
+  db:
+    image: postgres
+    container_name: ${APP_NAME}_db
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./docker/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGPASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: pgsq
+    networks:
+      - app-network
+
+  #clickhouse Service
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    container_name: ${APP_NAME}_clickhouse
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./docker/clickhouse:/var/lib/clickhouse/
+    ports:
+      - "8123:8123"
+    environment:
+      CLICKHOUSE_DB: ${CLICKHOUSE_DATABASE}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USERNAME}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  logs:
