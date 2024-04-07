@@ -11,7 +11,7 @@ class ReadLogNginxCommand extends LogCommand
      *
      * @var string
      */
-    protected $signature = 'app:read-log-nginx';
+    protected $signature = 'monitor-log:read-log-nginx';
 
     /**
      * The console command description.

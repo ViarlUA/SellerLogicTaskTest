@@ -12,7 +12,7 @@ class DisplayLogCountCommand extends DisplayLogCommand
      *
      * @var string
      */
-    protected $signature = 'app:display-log-count-command';
+    protected $signature = 'display-log:count';
 
     /**
      * The console command description.

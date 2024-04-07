@@ -14,7 +14,7 @@ class NginxLogMonitorCommand extends LogCommand
      *
      * @var string
      */
-    protected $signature = 'app:monitor-log-nginx';
+    protected $signature = 'monitor-log:monitor-log-nginx';
 
     /**
      * The console command description.

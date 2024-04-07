@@ -3,6 +3,8 @@
 namespace App\Console\Commands\Display;
 
 use App\Models\Log;
+use Illuminate\Contracts\Support\Arrayable;
+use Symfony\Component\Console\Helper\Table;
 
 class DisplayLogRecordsCommand extends DisplayLogCommand
 {
@@ -11,7 +13,7 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
      *
      * @var string
      */
-    protected $signature = 'app:display-log-records';
+    protected $signature = 'display-log:records {--chunk=100} {--vertical}';
 
     /**
      * The console command description.
@@ -26,9 +28,13 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
     public function handle(): void
     {
         $this->validDate();
+        
+        $chunk = $this->option('chunk');
+        $vertical = $this->option('vertical') ?? false;
 
         $this->info('Fetching records from the database...');
-
+        $page = 1;
+        
         Log::select([
             'remote_addr',
             'remote_user',
@@ -42,21 +48,32 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
             ->preWhere('time_local', '>=', $this->startDate->startOfDay()->toDateTimeString())
             ->preWhere('time_local', '<=', $this->finishDate->endOfDay()->toDateTimeString())
             ->chunk(
-                10,
-                function (array $records) {
-                    $this->table(
-                        [
-                            'Remote Address',
-                            'Remote User',
-                            'Time Local',
-                            'Request',
-                            'Status',
-                            'Body Bytes Sent',
-                            'HTTP Referer',
-                            'HTTP User Agent',
-                        ],
-                        $records
-                    );
+                $chunk,
+                function (array $records) use (&$page, $vertical) {
+                    if (empty($records)) {
+                        return;
+                    }
+                    
+                    $table = new Table($this->output);
+                    
+                    $table->setHeaders([
+                        'Remote Address',
+                        'Remote User',
+                        'Time Local',
+                        'Request',
+                        'Status',
+                        'Body Bytes Sent',
+                        'HTTP Referer',
+                        'HTTP User Agent',
+                    ])
+                        ->setRows($records)
+                        ->setStyle('default')
+                        ->setVertical($vertical)
+                        ->setFooterTitle("Page $page");
+                    
+                    $page++;
+                    
+                    $table->render();
                 }
             );
 
