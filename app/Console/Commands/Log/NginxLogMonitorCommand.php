@@ -6,6 +6,7 @@ use App\Models\Log;
 use App\Service\Log\LogSyncService;
 use App\Service\ReaderLog\ReadLogTailService;
 use Laravel\Telescope\Telescope;
+use Symfony\Component\Console\Helper\Table;
 
 class NginxLogMonitorCommand extends LogCommand
 {
@@ -75,11 +76,29 @@ class NginxLogMonitorCommand extends LogCommand
      */
     private function monitorLogs(string $path): void
     {
-        Telescope::stopRecording();
+        //        Telescope::stopRecording();
         $readLog = new ReadLogTailService($path);
         $this->info('Start monitor log from ' . $path);
 
         foreach ($readLog->read() as $log) {
+            $table = new Table($this->output);
+
+            $table->setHeaders([
+                'Remote Address',
+                'Remote User',
+                'Time Local',
+                'Request',
+                'Status',
+                'Body Bytes Sent',
+                'HTTP Referer',
+                'HTTP User Agent',
+            ])
+                ->setRows($log)
+                ->setStyle('default')
+                ->setVertical();
+
+            $table->render();
+
             Log::insertAssoc($log);
         }
 

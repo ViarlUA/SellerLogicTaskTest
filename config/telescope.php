@@ -99,7 +99,7 @@ return [
     ],
 
     'ignore_commands' => [
-        //
+        'monitor-log:monitor-log-nginx',
     ],
 
     /*

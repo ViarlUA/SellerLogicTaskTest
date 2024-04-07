@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Display;
 
 use App\Models\Log;
-use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\Console\Helper\Table;
 
 class DisplayLogRecordsCommand extends DisplayLogCommand
@@ -28,13 +27,13 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
     public function handle(): void
     {
         $this->validDate();
-        
-        $chunk = $this->option('chunk');
+
+        $chunk    = $this->option('chunk');
         $vertical = $this->option('vertical') ?? false;
 
         $this->info('Fetching records from the database...');
         $page = 1;
-        
+
         Log::select([
             'remote_addr',
             'remote_user',
@@ -53,9 +52,9 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
                     if (empty($records)) {
                         return;
                     }
-                    
+
                     $table = new Table($this->output);
-                    
+
                     $table->setHeaders([
                         'Remote Address',
                         'Remote User',
@@ -70,9 +69,9 @@ class DisplayLogRecordsCommand extends DisplayLogCommand
                         ->setStyle('default')
                         ->setVertical($vertical)
                         ->setFooterTitle("Page $page");
-                    
+
                     $page++;
-                    
+
                     $table->render();
                 }
             );
