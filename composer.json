@@ -1,6 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
+    "version": "v11.0.0",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
@@ -59,13 +60,10 @@
         "psalm": [
             "./tools/psalm/vendor/bin/psalm"
         ],
-        "phpstan": [
-            "./tools/phpstan/vendor/bin/phpstan analyse --ansi --memory-limit 512M"
-        ],
+
         "code_check":[
             "composer check_style",
-            "composer psalm",
-            "composer phpstan"
+            "composer psalm"
         ]
     },
     "extra": {

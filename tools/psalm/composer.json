@@ -1,4 +1,5 @@
 {
+    "version": "v11.0.0",
     "require-dev": {
         "vimeo/psalm": "^5.18",
         "psalm/plugin-laravel": "^2.0"

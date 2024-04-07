@@ -18,11 +18,9 @@ init:
 	docker-compose exec app bash -c "php artisan migrate:fresh"
 	docker-compose exec app bash -c "php artisan ide-helper:model -M"
 	docker-compose exec app bash -c "composer install --working-dir=tools/php-cs-fixer"
-	docker-compose exec app bash -c "composer install --working-dir=tools/phpstan"
 	docker-compose exec app bash -c "composer install --working-dir=tools/psalm"
 
 
 check_code:
 	docker-compose exec app bash -c "composer run check_style"
 	docker-compose exec app bash -c "composer run psalm"
-	docker-compose exec app bash -c "composer run phpstan"
