@@ -1,9 +1,9 @@
 # Laravel with docker (SellerLogic Test Task)
 
 ### Locally Installation
+- `cp .env.example .env`
 
 #### Option 1
-- `cp .env.example .env`
 - `docker-compose up -d`
 - `docker-compose exec app bash`
 - `composer install`

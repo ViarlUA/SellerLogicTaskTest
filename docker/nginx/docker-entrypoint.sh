@@ -1,8 +1,10 @@
 #!/bin/sh
 
-if [ -L /var/log/nginx/access.log ]; then
-    echo "Removing symbolic link from /var/log/nginx/access.log"
-    rm /var/log/nginx/access.log
-else
-    echo "/var/log/nginx/access.log is not a symbolic link or does not exist"
+log_file="/var/log/nginx/access.log"
+
+# Проверяем существует ли файл и является ли он символической ссылкой
+if [ -e "$log_file" ] && [ -L "$log_file" ]; then
+    unlink "$log_file"  # Отвязываем символическую ссылку
 fi
+
+exec "$@"
