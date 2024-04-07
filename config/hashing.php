@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'driver' => 'bcrypt',
+    'driver'          => 'bcrypt',
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'bcrypt' => [
+    'bcrypt'          => [
         'rounds' => env('BCRYPT_ROUNDS', 10),
     ],
 
@@ -42,11 +42,11 @@ return [
     |
     */
 
-    'argon'  => [
+    'argon'           => [
         'memory'  => 65536,
         'threads' => 1,
         'time'    => 4,
     ],
-    
+
     'rehash_on_login' => false,
 ];

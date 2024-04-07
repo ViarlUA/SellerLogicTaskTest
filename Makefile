@@ -15,18 +15,12 @@ down:
 init:
 	docker-compose exec app bash -c "composer install"
 	docker-compose exec app bash -c "php artisan key:generate"
-	docker-compose exec app bash -c "php artisan migrate:fresh --seed"
+	docker-compose exec app bash -c "php artisan migrate:fresh"
+	docker-compose exec app bash -c "php artisan ide-helper:model -M"
 	docker-compose exec app bash -c "composer install --working-dir=tools/php-cs-fixer"
 	docker-compose exec app bash -c "composer install --working-dir=tools/phpstan"
 	docker-compose exec app bash -c "composer install --working-dir=tools/psalm"
-	docker-compose exec app bash -c "composer install --working-dir=tools/rector"
-	docker-compose exec app bash -c "php artisan ide-helper:models -M"
-	docker-compose exec app bash -c "php artisan ide-helper:generate"
-	docker-compose exec app bash -c "php artisan ide-helper:meta"
-	docker-compose exec app bash -c "php artisan app:create-test-scheme-in-data-base-command"
 
-test:
-	docker-compose exec app bash -c "php artisan test"
 
 check_code:
 	docker-compose exec app bash -c "composer run check_style"

@@ -11,7 +11,8 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "4.0",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+      "ext-pcntl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
@@ -60,12 +61,6 @@
         ],
         "phpstan": [
             "./tools/phpstan/vendor/bin/phpstan analyse --ansi --memory-limit 512M"
-        ],
-        "rector_check": [
-            "./tools/rector/vendor/bin/rector process --dry-run"
-        ],
-        "rector_fix": [
-            "./tools/rector/vendor/bin/rector process"
         ],
         "code_check":[
             "composer check_style",

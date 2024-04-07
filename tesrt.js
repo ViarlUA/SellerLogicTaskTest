@@ -1,0 +1,1 @@
+let a = {remote_addr: string, remote_user:string, time_local: CarbonImmutable, request: string, status: int, body_bytes_sent:int, http_referer: string, http_user_agent: string}

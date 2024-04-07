@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use PhpClickHouseLaravel\BaseModel;
 
-class Log extends Model
+class Log extends BaseModel
 {
+    protected $table = 'logs';
+
 }

@@ -4,7 +4,7 @@
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    xsi:schemaLocation="https://getpsalm.org/schema/config tools/psalm/vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
 >
@@ -15,4 +15,16 @@
         </ignoreFiles>
     </projectFiles>
     <plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/></plugins>
+    <issueHandlers>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="app/Console/Commands" />
+            </errorLevel>
+        </UnusedClass>
+        <UnusedClosureParam>
+            <errorLevel type="suppress">
+                <directory name="app/Exceptions" />
+            </errorLevel>
+        </UnusedClosureParam>
+    </issueHandlers>
 </psalm>
