@@ -26,3 +26,16 @@
 ### Fix code style
 - `docker-compose exec app bash`
 - `composer run fix_style`
+
+
+---
+### Commands
+
+#### display-log
+- `php artisan display-log:count <startDate> <finishDate>` Display the count of records from the database within a specified time range using Log
+- `php artisan display-log:records <startDate> <finishDate> [--chunk=1000] [--vertical]` Display records from the database within a specified time range using Log
+
+
+#### monitor-log
+- `php artisan monitor-log:monitor-log-nginx <path>` Monitor Nginx access log and save new data to ClickHouse
+- `php artisan monitor-log:read-log-nginx <path> <chunk=10000>` Reading Nginx logs and save new data to ClickHouse
