@@ -7,4 +7,4 @@ if [ -e "$log_file" ] && [ -L "$log_file" ]; then
     unlink "$log_file"  # Отвязываем символическую ссылку
 fi
 
-exec "$@"
+exec "$@" # Запускаем переданное приложение
